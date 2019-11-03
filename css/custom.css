@@ -63,3 +63,32 @@ span.arrow-right {
   text-transform: none;
   font-size: 0.5em;
 }
+
+.split {
+  display: flex;
+}
+.split .left {
+  flex: 40;
+}
+
+.split .mid {
+  flex: 5;
+}
+
+.split .right {
+  flex: 55;
+}
+
+.split .left li {
+  font-size: 0.8em;
+  margin-top: 0.4em;
+}
+
+.split .right pre {
+  margin: 0 0;
+  box-shadow: none;
+}
+
+.split .right pre code {
+  background: transparent;
+}
