@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Enumerable sequences</title>
+
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/night.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="footer">Photo by Laura Vanzo on Visit Tampere</div>
+      <div class="slides">
+        <section
+          data-transition="slide"
+          data-background-color="#000000"
+          data-background-opacity="0.4"
+          data-background="images/tampere-by-laura-vanzo.jpg"
+          data-credit="Photo by Laura Vanzo on Visit Tampere"
+        >
+          <h2 style="font-size: 2.6em">fromfrom</h2>
+          <br />
+          <h3>
+            LINQ inspired library to transform sequences of data
+          </h3>
+          <br />
+          <p>
+            <a href="https://twitter.com/TomiTurtiainen">@TomiTurtiainen</a> |
+            <a href="https://github.com/tomi">https://github.com/tomi</a>
+          </p>
+          <br />
+          <p>
+            <small>
+              TampereJS | 7/11/2019
+            </small>
+          </p>
+        </section>
+
+        <section
+          data-background="images/motivation.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.4"
+          data-credit="Photo by Danielle MacInnes on Unsplash"
+        >
+          <h2>Motivation</h2>
+          <p class="fragment">How do you transform data in JS?</p>
+          <br /><br /><br /><br /><br /><br />
+          <p class="fragment right">
+            Here are some options...
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- <section
+          data-background="images/background.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.8"
+          data-credit="Photo by João Silas on Unsplash"
+        >
+          <h3 style="font-size: 1.4em;">
+            <font color="#f08">LINQ</font> inspired library to transform
+            sequences of data
+          </h3>
+          <br />
+          <p>Started my professional career with .NET</p>
+          <p>Switched to JavaScript</p>
+        </section> -->
+
+        <!-- <section
+          data-background="images/background.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.8"
+          data-credit="Photo by João Silas on Unsplash"
+        >
+          <h2>Background</h2>
+          <br />
+          <p>
+            I worked with .NET for 3.5 years before switching into JavaScript
+            and Web development
+          </p>
+        </section> -->
+
+        <section
+          data-background="images/js.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.3"
+          data-credit="Photo by Pankaj Patel on Unsplash"
+        >
+          <h2>Plain JavaScript</h2>
+
+          <p class="fragment">
+            <code>Array</code> has <code>filter</code>, <code>map</code>,
+            <code>reduce</code>, but...
+          </p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...no methods for more complicated tranforms
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...<code>Object</code>, <code>Map</code> and <code>Set</code> don't
+            have them
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...methods are not lazy
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <section
+          data-background="images/js.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.4"
+          data-credit="Photo by Pankaj Patel on Unsplash"
+        >
+          <h2>lodash</h2>
+          <p class="fragment">
+            You can create a pipeline with <code>_.chain()</code>, but...
+          </p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...it feels clumsy and hard to understand
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...TypeScript support is not the best
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...no support for <code>Set</code>, <code>Map</code> or other
+            <code>Iterable</code>s
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...it imports almost the entire library
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- data-background="images/linq.png"
+        data-background-color="#000000"
+        data-background-opacity="0.3" -->
+        <section data-background-color="#282c34">
+          <!-- <div
+            style="background-color: #3f3f3f; width: 200%; height: 100%; position: absolute; top: 60%; left: 0; z-index: -1;"
+          ></div> -->
+          <div
+            style="background-color: rgb(20, 98, 135); width: 100%; height: 400%; position: absolute; top: -100%; left: -50%; z-index: -1;"
+          ></div>
+          <h2>LINQ</h2>
+
+          <div
+            style="width: 40%; display: inline-block; margin-right: 5%; vertical-align: top;"
+          >
+            <p class="fragment" style="font-size: 0.8em;">
+              .NET way of transforming data from one source to another
+            </p>
+          </div>
+
+          <br /><br /><br />
+
+          <div class="fragment">
+            <div
+              style="width: 45%; margin-right:5%; display: inline-block; vertical-align: top;"
+            >
+              <p
+                style="text-align: right; line-height: 1.2em; font-size: 0.8em; margin-top: 0;"
+              >
+                Sort Finnish players by their score and select each player's
+                name and score
+              </p>
+            </div>
+            <div class="code" style="width: 44%; display: inline-block;">
+              <p>Players</p>
+              <p>
+                &nbsp;&nbsp;.Where(c =&gt; c.Country ==
+                <span class="hljs-string">"FI"</span>)
+              </p>
+              <p>&nbsp;&nbsp;.OrderByDescending(c =&gt; c.Score)</p>
+              <p>
+                &nbsp;&nbsp;.Select(c =&gt;
+              </p>
+              <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword">new</span>
+                { c.Name, c.Score }
+              </p>
+              <p>&nbsp;&nbsp;);</p>
+            </div>
+          </div>
+
+          <aside class="notes"></aside>
+        </section>
+
+        <section
+          data-background="images/npm-linq.png"
+          data-background-color="#000000"
+          data-background-opacity="0.3"
+        >
+          <h2>LINQ libraries</h2>
+
+          <p class="fragment">NPM already has 340 LINQ libraries, but...</p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...they are exact copies of LINQ
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...method names are not JS friendly
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...they lack support for certain types
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <section
+          data-background="images/goals.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.3"
+          data-credit="Photo by Isaac Smith on Unsplash"
+        >
+          <h2>fromfrom</h2>
+          <p class="fragment" style="font-size: 0.9em;">
+            Provide similar functionality to LINQ in JS friendly way
+          </p>
+          <ul>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Simple</b>: Have a explicit and simple API
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Familiar</b>: Use familiar function names from JS
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Small</b>: No external dependencies
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Type</b> safe: Written in TypeScript and has type definitions
+              included
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Comprehensive</b>: Support all native JS collections
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Fast</b>: Use lazy evaluation and deferred execution
+            </li>
+          </ul>
+        </section>
+
+        <section><h2>Demo</h2></section>
+
+        <!-- <section
+          data-background-iframe="https://tomi.github.io/fromfrom/playground.html"
+          data-background-interactive
+        ></section> -->
+        <!--
+            - Background
+                - Come from .NET
+            - Alternatives
+                - lodash
+                    - Large
+                    - Implicit chaining API
+                    - TS support
+                - LINQ libraries
+                    - Made for .NET people
+                    - Varying quality
+            - Design goals:
+                - Minimalistic: Do one thing and do it well
+                - Simple: Have a clean and simple API
+                - Familiar: Use familiar function names from JS
+                - Small: No external dependencies
+                - Type safe: Written in TypeScript and has type definitions included
+                - Comprehensive: Support all native JS collections
+                - Fast: Use lazy evaluation and pipelining
+            - Demo
+            - How does it work
+                - Iteration protocols
+                - Deferred execution & lazy evaluation
+                - Generator functions
+            - Documentation
+                - Playground
+                - API documentation
+         -->
+
+        <section>
+          <section><h2>What?</h2></section>
+
+          <section>
+            <blockquote>
+              "Enumerable sequences is a
+              <a href="https://en.wikipedia.org/wiki/Language_Integrated_Query"
+                >LINQ</a
+              >
+              inspired library to transform sequences of data."
+            </blockquote>
+          </section>
+
+          <section>
+            <pre><code data-trim data-noescape class="json">
+[{ "id":1, "name": "John", "gender": "M", "score":941 }
+,{ "id":2, "name": "Luke", "gender": "M", "score":645 }
+,{ "id":3, "name": "Jane", "gender": "F", "score":525 }
+,{ "id":4, "name": "Mark", "gender": "M", "score":893 }
+,{ "id":5, "name": "Mary", "gender": "F", "score":886 }]
+												</code></pre>
+            <div class="fragment arrow-down"></div>
+            <pre class="fragment"><code data-trim data-noescape class="json">
+[{ "id":5, "display": "Mary (F)", "score":886 }
+,{ "id":3, "display": "Jane (F)", "score":525 }
+,{ "id":1, "display": "John (M)", "score":941 }
+,{ "id":4, "display": "Mark (M)", "score":893 }
+,{ "id":2, "display": "Luke (M)", "score":645 }]
+												</code></pre>
+          </section>
+
+          <section><h3>Demo</h3></section>
+        </section>
+
+        <section>
+          <section><h2>Why?</h2></section>
+
+          <section>
+            <h3>JS support for collections is lacking</h3>
+
+            <p class="fragment">
+              Only <code>Array</code> has some, but only basic ones
+            </p>
+            <p class="fragment">
+              <code>Set</code> and <code>Map</code> lack any transform methods
+            </p>
+
+            <h4></h4>
+          </section>
+
+          <section>
+            <blockquote>
+              "Already 311 LINQ packages in NPM"
+            </blockquote>
+            <img src="images/npm-linq.png" alt="" />
+
+            <p class="fragment">Exact copies of LINQ</p>
+            <p class="fragment">Method names not JS friendly</p>
+            <p class="fragment">
+              Lack support for certain types (objects, Maps)
+            </p>
+          </section>
+
+          <section>
+            <blockquote>"What about lodash?"</blockquote>
+
+            <p class="fragment">
+              I want a banana, not a gorilla holding the banana
+            </p>
+            <p class="fragment">
+              Chaining feels clumsy and implicit
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section><h2>How?</h2></section>
+
+          <section>
+            <h3>
+              <a href="https://en.wikipedia.org/wiki/Decorator_pattern"
+                >Decorator pattern</a
+              >
+              &
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols"
+                >Iteration protocols</a
+              >
+            </h3>
+          </section>
+
+          <section>
+            <h3>Decorator pattern</h3>
+
+            <p class="fragment">
+              Dynamically add behavior to existing objects
+            </p>
+            <img class="fragment" src="images/decorator.jpg" alt="" />
+          </section>
+
+          <section><h3>Iteration protocols</h3></section>
+
+          <section>
+            <h3>Iterable protocol</h3>
+
+            <pre><code data-trim data-noescape class="ts">
+interface Iterable&lt;T> {
+	[Symbol.iterator](): Iterator&lt;T>;
+}
+</code>
+</pre>
+
+            <p class="fragment">
+              Allows sequence to be looped over in a
+              <code>for..of</code> construct
+            </p>
+            <p class="fragment">
+              <code>Array</code>, <code>Set</code> and
+              <code>Map</code> implement Iterable
+            </p>
+          </section>
+
+          <section>
+            <h3>Iterator protocol</h3>
+
+            <pre><code data-trim data-noescape class="ts">
+interface IteratorResult&lt;T> {
+    done: boolean;
+    value: T;
+}
+
+interface Iterator&lt;T> {
+    next(value?: any): IteratorResult&lt;T>;
+    return?(value?: any): IteratorResult&lt;T>;
+    throw?(e?: any): IteratorResult&lt;T>;
+}
+</code>
+</pre>
+
+            <p class="fragment">
+              Defines a standard way to produce a sequence of values
+            </p>
+          </section>
+
+          <section>
+            <h3>Iterator example</h3>
+
+            <pre><code data-trim data-noescape class="js">
+const arr = [1, 2];
+const iterator = arr[Symbol.iterator]();
+iterator.next();
+// { value: 1, done: false }
+iterator.next();
+// { value: 2, done: false }
+iterator.next();
+// { value: undefined, done: true }
+</code>
+</pre>
+          </section>
+
+          <section>
+            <h3>Enumseq</h3>
+
+            <img src="images/enumseq.png" alt="" />
+          </section>
+        </section>
+
+        <!-- Thanks -->
+        <section>
+          <section>
+            <h2>Thank you!</h2>
+
+            <h2>Questions?</h2>
+
+            <br />
+            <p>
+              <a href="http://twitter.com/TomiTurtiainen">@TomiTurtiainen</a>
+            </p>
+            <!-- See this in <a href="https://tomi.github.io/presentation-future-of-js">https://tomi.github.io/presentation-future-of-js</a> -->
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        controls: true,
+        history: true,
+        backgroundTransition: "slide",
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+
+      var footer = document.querySelector(".footer");
+
+      Reveal.addEventListener("slidechanged", function(event) {
+        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+        // console.log(event.currentSlide.attributes);
+        // First, let's verify that the paragraph has some attributes
+        var credit = "";
+        if (event.currentSlide.hasAttributes()) {
+          var attrs = event.currentSlide.attributes;
+          for (var i = attrs.length - 1; i >= 0; i--) {
+            if (attrs[i].name === "data-credit") {
+              credit = attrs[i].value;
+            }
+          }
+        }
+        footer.innerHTML = credit;
+      });
+
+      //   console.log(Reveal.getCurrentSlide());
+    </script>
+  </body>
+</html>
