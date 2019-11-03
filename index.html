@@ -173,9 +173,6 @@
         data-background-color="#000000"
         data-background-opacity="0.3" -->
         <section data-background-color="#282c34">
-          <!-- <div
-            style="background-color: #3f3f3f; width: 200%; height: 100%; position: absolute; top: 60%; left: 0; z-index: -1;"
-          ></div> -->
           <div
             style="background-color: rgb(20, 98, 135); width: 100%; height: 400%; position: absolute; top: -100%; left: -50%; z-index: -1;"
           ></div>
@@ -268,10 +265,10 @@
               <b>Familiar</b>: Use familiar function names from JS
             </li>
             <li class="fragment" style="font-size: 0.9em;">
-              <b>Small</b>: No external dependencies
+              <b>Small</b>: No external dependencies, 1.4 kB gzipped
             </li>
             <li class="fragment" style="font-size: 0.9em;">
-              <b>Type</b> safe: Written in TypeScript and has type definitions
+              <b>Type safe</b>: Written in TypeScript and has type definitions
               included
             </li>
             <li class="fragment" style="font-size: 0.9em;">
@@ -284,6 +281,58 @@
         </section>
 
         <section><h2>Demo</h2></section>
+
+        <section><h2>How does it work?</h2></section>
+
+        <section>
+          <h2>Iteration protocols</h2>
+
+          <p>Came in ES2015</p>
+          <p>
+            Implemented by <code>String</code>, <code>Array</code>,
+            <code>Map</code> and
+            <code>Set</code>
+          </p>
+          <p>Used by <code>for...of</code></p>
+
+          <pre>
+                <code data-trim data-noescape class="ts">
+                interface Iterable&lt;T> {
+                  [Symbol.iterator](): Iterator&lt;T>;
+                }
+
+                interface Iterator&lt;T> {
+                  next(value?: any): IteratorResult&lt;T>;
+                  return?(value?: any): IteratorResult&lt;T>;
+                  throw?(e?: any): IteratorResult&lt;T>;
+                }
+
+                interface IteratorResult&lt;T> {
+                  done: boolean;
+                  value: T;
+                }
+                </code>
+            </pre>
+        </section>
+
+        <section>
+          <h2>Generator functions</h2>
+
+          <p>Came in ES2015</p>
+          <p>Functions which can be exited and later re-entered</p>
+          <p>Is both <code>Iterable</code> and <code>Iterator</code></p>
+
+          <pre>
+                <code data-trim data-noescape class="ts">
+interface Generator<T, TReturn, TNext> extends Iterator<T, TReturn, TNext> {
+    next(...args: [] | [TNext]): IteratorResult<T, TReturn>;
+    return(value: TReturn): IteratorResult<T, TReturn>;
+    throw(e: any): IteratorResult<T, TReturn>;
+    [Symbol.iterator](): Generator<T, TReturn, TNext>;
+}
+                </code>
+            </pre>
+        </section>
 
         <!-- <section
           data-background-iframe="https://tomi.github.io/fromfrom/playground.html"
@@ -317,7 +366,7 @@
                 - Playground
                 - API documentation
          -->
-
+        <!--
         <section>
           <section><h2>What?</h2></section>
 
@@ -350,8 +399,8 @@
           </section>
 
           <section><h3>Demo</h3></section>
-        </section>
-
+        </section> -->
+        <!--
         <section>
           <section><h2>Why?</h2></section>
 
@@ -391,7 +440,7 @@
               Chaining feels clumsy and implicit
             </p>
           </section>
-        </section>
+        </section> -->
 
         <section>
           <section><h2>How?</h2></section>
