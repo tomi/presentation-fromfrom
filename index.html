@@ -29,7 +29,9 @@
   </head>
   <body>
     <div class="reveal">
-      <div class="footer">Photo by Laura Vanzo on Visit Tampere</div>
+      <div class="footer" style="z-index: 2;">
+        Photo by Laura Vanzo on Visit Tampere
+      </div>
       <div class="slides">
         <!-- Intro -->
         <section
@@ -60,10 +62,15 @@
         <!-- Motivation -->
         <section
           data-background="images/motivation.jpg"
-          data-background-color="#000000"
+          data-background-color="#009f77"
           data-background-opacity="0.4"
           data-credit="Photo by Danielle MacInnes on Unsplash"
         >
+          <div
+            style="background-color: #200a74; width: 300%; transform: skewY(-7deg);
+        height: 60%; position: absolute; bottom: -28%; left: -100%; z-index: -50;
+        "
+          ></div>
           <h2>Motivation</h2>
           <p>How do you transform data in JS?</p>
           <br /><br /><br /><br /><br /><br />
@@ -145,9 +152,9 @@
         </section>
 
         <!-- LINQ -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000000">
           <div
-            style="background-color: rgb(20, 98, 135); width: 100%; height: 400%; position: absolute; top: -100%; left: -50%; z-index: -1;"
+            style="background-color: #200a74; transform: skewX(7deg); width: 100%; height: 400%; position: absolute; top: -100%; left: -50%; z-index: -1;"
           ></div>
           <h2>LINQ</h2>
 
@@ -194,6 +201,7 @@
           <aside class="notes"></aside>
         </section>
 
+        <!-- LINQ libraries -->
         <section
           data-background="images/npm-linq.png"
           data-background-color="#000000"
@@ -221,9 +229,10 @@
           </aside>
         </section>
 
+        <!-- Design goals -->
         <section
           data-background="images/goals.jpg"
-          data-background-color="#000000"
+          data-background-color="#000"
           data-background-opacity="0.3"
           data-credit="Photo by Isaac Smith on Unsplash"
         >
@@ -254,26 +263,28 @@
           </ul>
         </section>
 
-        <section><h2>Demo</h2></section>
+        <section data-background-color="#009f77"><h2>Demo</h2></section>
 
-        <section><h2>How does it work?</h2></section>
+        <section data-background-color="#fb8793">
+          <h2>How does it work?</h2>
+        </section>
 
         <!-- Iteration protocol -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000">
           <h2 style="text-align: center;">Iteration protocols</h2>
           <div
-            style="background-color: rgb(20, 98, 135); width: 100%;
+            style="background-color: #200a74; width: 100%;
             height: 400%; position: absolute; top: -100%; left: -63%; z-index: -50;"
           ></div>
           <div
-            style="background-color: rgb(20, 98, 135); width: 300%;
+            style="background-color: #200a74; width: 300%;
             height: 50%; position: absolute; top: -32%; left: -10%; z-index: -50;
             "
           ></div>
           <div class="split">
             <div class="left">
               <small>
-                <p>Specified in <font color="#f08">ES2015</font></p>
+                <p>Specified in <font color="#ff465a">ES2015</font></p>
                 <p>
                   Implemented by <code>String</code>, <code>Array</code>,
                   <code>Map</code> and
@@ -318,10 +329,10 @@ interface IteratorResult&lt;T> {
         </section>
 
         <!-- Iteration example -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000">
           <h2 style="text-align: center;">Iteration example</h2>
           <div
-            style="background-color: rgb(20, 98, 135); width: 300%;
+            style="background-color: #200a74; width: 300%;
             height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
             "
           ></div>
@@ -347,14 +358,14 @@ for (const item of array) {
         </section>
 
         <!-- Generation functions -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000">
           <h2 style="text-align: center;">Generator functions</h2>
           <div
-            style="background-color: rgb(20, 98, 135); width: 100%;
+            style="background-color: #009f77; width: 100%;
             height: 400%; position: absolute; top: -100%; left: -63%; z-index: -50;"
           ></div>
           <div
-            style="background-color: rgb(20, 98, 135); width: 300%;
+            style="background-color: #009f77; width: 300%;
             height: 50%; position: absolute; top: -32%; left: -10%; z-index: -50;
             "
           ></div>
@@ -396,10 +407,10 @@ interface Generator&lt;T> extends Iterator&lt;T> {
         </section>
 
         <!-- Generator example -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000">
           <h2 style="text-align: center;">Generator example</h2>
           <div
-            style="background-color: rgb(20, 98, 135); width: 300%;
+            style="background-color: #009f77; width: 300%;
             height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
             "
           ></div>
@@ -428,10 +439,10 @@ for (const pair in objectEntries(obj)) {
         </section>
 
         <!-- Lazy evaluation example -->
-        <section data-background-color="#282c34">
+        <section data-background-color="#000">
           <h2 style="text-align: center;">Lazy evaluation</h2>
           <div
-            style="background-color: rgb(20, 98, 135); width: 300%;
+            style="background-color: #200a74; width: 300%;
             height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
             "
           ></div>
@@ -453,12 +464,14 @@ const result = from([1, 2, 3, 4])
           <br /><br /><br /><br /><br />
         </section>
 
+        <!-- Documentation -->
         <section
           data-background-iframe="https://tomi.github.io/fromfrom/"
           data-background-interactive
         ></section>
 
-        <section>
+        <!-- Futher development -->
+        <section data-background-color="#200a74">
           <h2>Futher development</h2>
 
           <p>Add some missing methods</p>
@@ -466,127 +479,23 @@ const result = from([1, 2, 3, 4])
           <p>Functional version</p>
         </section>
 
-        <!-- <section
-          data-background-iframe="https://tomi.github.io/fromfrom/playground.html"
-          data-background-interactive
-        ></section> -->
-        <!--
-            - Background
-                - Come from .NET
-            - Alternatives
-                - lodash
-                    - Large
-                    - Implicit chaining API
-                    - TS support
-                - LINQ libraries
-                    - Made for .NET people
-                    - Varying quality
-            - Design goals:
-                - Minimalistic: Do one thing and do it well
-                - Simple: Have a clean and simple API
-                - Familiar: Use familiar function names from JS
-                - Small: No external dependencies
-                - Type safe: Written in TypeScript and has type definitions included
-                - Comprehensive: Support all native JS collections
-                - Fast: Use lazy evaluation and pipelining
-            - Demo
-            - How does it work
-                - Iteration protocols
-                - Deferred execution & lazy evaluation
-                - Generator functions
-            - Documentation
-                - Playground
-                - API documentation
-         -->
-        <!--
-        <section>
-          <section><h2>What?</h2></section>
-
-          <section>
-            <blockquote>
-              "Enumerable sequences is a
-              <a href="https://en.wikipedia.org/wiki/Language_Integrated_Query"
-                >LINQ</a
-              >
-              inspired library to transform sequences of data."
-            </blockquote>
-          </section>
-
-          <section>
-            <pre><code data-trim data-noescape class="json">
-[{ "id":1, "name": "John", "gender": "M", "score":941 }
-,{ "id":2, "name": "Luke", "gender": "M", "score":645 }
-,{ "id":3, "name": "Jane", "gender": "F", "score":525 }
-,{ "id":4, "name": "Mark", "gender": "M", "score":893 }
-,{ "id":5, "name": "Mary", "gender": "F", "score":886 }]
-												</code></pre>
-            <div class="fragment arrow-down"></div>
-            <pre class="fragment"><code data-trim data-noescape class="json">
-[{ "id":5, "display": "Mary (F)", "score":886 }
-,{ "id":3, "display": "Jane (F)", "score":525 }
-,{ "id":1, "display": "John (M)", "score":941 }
-,{ "id":4, "display": "Mark (M)", "score":893 }
-,{ "id":2, "display": "Luke (M)", "score":645 }]
-												</code></pre>
-          </section>
-
-          <section><h3>Demo</h3></section>
-        </section> -->
-        <!--
-        <section>
-          <section><h2>Why?</h2></section>
-
-          <section>
-            <h3>JS support for collections is lacking</h3>
-
-            <p class="fragment">
-              Only <code>Array</code> has some, but only basic ones
-            </p>
-            <p class="fragment">
-              <code>Set</code> and <code>Map</code> lack any transform methods
-            </p>
-
-            <h4></h4>
-          </section>
-
-          <section>
-            <blockquote>
-              "Already 311 LINQ packages in NPM"
-            </blockquote>
-            <img src="images/npm-linq.png" alt="" />
-
-            <p class="fragment">Exact copies of LINQ</p>
-            <p class="fragment">Method names not JS friendly</p>
-            <p class="fragment">
-              Lack support for certain types (objects, Maps)
-            </p>
-          </section>
-
-          <section>
-            <blockquote>"What about lodash?"</blockquote>
-
-            <p class="fragment">
-              I want a banana, not a gorilla holding the banana
-            </p>
-            <p class="fragment">
-              Chaining feels clumsy and implicit
-            </p>
-          </section>
-        </section> -->
-
         <!-- Thanks -->
         <section>
-          <section>
-            <h2>Thank you!</h2>
+          <br /><br />
+          <h2>Thank you!</h2>
 
-            <h2>Questions?</h2>
+          <h2>Questions?</h2>
 
-            <br />
-            <p>
-              <a href="http://twitter.com/TomiTurtiainen">@TomiTurtiainen</a>
-            </p>
-            <!-- See this in <a href="https://tomi.github.io/presentation-future-of-js">https://tomi.github.io/presentation-future-of-js</a> -->
-          </section>
+          <br />
+          <p>
+            <a href="https://twitter.com/TomiTurtiainen">@TomiTurtiainen</a
+            ><br />
+            <a href="https://github.com/tomi">https://github.com/tomi</a>
+          </p>
+          <div
+            style="background-color: #200a74; transform: skewX(-10deg); width: 100%; height: 400%; position: absolute; top: -100%; right: -60%; z-index: -1;"
+          ></div>
+          <!-- See this in <a href="https://tomi.github.io/presentation-future-of-js">https://tomi.github.io/presentation-future-of-js</a> -->
         </section>
       </div>
     </div>
