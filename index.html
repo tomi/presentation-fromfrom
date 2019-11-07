@@ -60,12 +60,7 @@
         </section>
 
         <!-- Motivation -->
-        <section
-          data-background="images/motivation.jpg"
-          data-background-color="#009f77"
-          data-background-opacity="0.4"
-          data-credit="Photo by Danielle MacInnes on Unsplash"
-        >
+        <section data-background-color="#000">
           <div
             style="background-color: #200a74; width: 300%; transform: skewY(-7deg);
         height: 60%; position: absolute; bottom: -28%; left: -100%; z-index: -50;
@@ -101,7 +96,7 @@
           <br />
 
           <p class="fragment" style="text-align: right;">
-            ...no methods for more complicated tranforms
+            ...no methods for more complicated transforms
           </p>
           <p class="fragment" style="text-align: right;">
             ...<code>Object</code>, <code>Map</code> and <code>Set</code> don't
@@ -179,6 +174,7 @@
                 name and score
               </p>
             </div>
+
             <div class="code" style="width: 44%; display: inline-block;">
               <p>Players</p>
               <p>
@@ -284,13 +280,15 @@
           <div class="split">
             <div class="left">
               <small>
-                <p>Specified in <font color="#ff465a">ES2015</font></p>
+                <p>
+                  Enables iteration of JS types with <code>for...of</code> loops
+                </p>
                 <p>
                   Implemented by <code>String</code>, <code>Array</code>,
                   <code>Map</code> and
                   <code>Set</code>
                 </p>
-                <p>Used by <code>for...of</code></p>
+                <p>Specified in <font color="#ff465a">ES2015</font></p>
                 <div class="fragment">
                   <p><code>IEnumerable&lt;T></code> in .NET</p>
                   <p><code>iterable</code> in Python</p>
@@ -372,14 +370,12 @@ for (const item of array) {
           <div class="split">
             <div class="left">
               <small>
-                <p>Specified in <font color="#f08">ES2015</font></p>
                 <p>
                   Functions which can be exited and later re-entered
                 </p>
-                <p>
-                  Function is executed until a <code>yield</code> expression
-                </p>
-                Is both <code>Iterable</code> and <code>Iterator</code>
+                <p>Can <code>yield</code> values</p>
+                <p>Is both <code>Iterable</code> and <code>Iterator</code></p>
+                <p>Specified in <font color="#f08">ES2015</font></p>
               </small>
             </div>
             <div class="mid"></div>
@@ -431,7 +427,7 @@ interface Generator&lt;T> extends Iterator&lt;T> {
           data-trim data-noescape class="ts"
           style="background: transparent;">const obj = { a: 1, b: 2 };
 
-for (const pair in objectEntries(obj)) {
+for (const pair of objectEntries(obj)) {
     // first pair is ["a", 1]
     // second pair is ["b", 2]
 }</code></pre>
@@ -470,9 +466,9 @@ const result = from([1, 2, 3, 4])
           data-background-interactive
         ></section>
 
-        <!-- Futher development -->
+        <!-- Further development -->
         <section data-background-color="#200a74">
-          <h2>Futher development</h2>
+          <h2>Further development</h2>
 
           <p>Add some missing methods</p>
           <p>Support for async iterables</p>
@@ -490,10 +486,13 @@ const result = from([1, 2, 3, 4])
           <p>
             <a href="https://twitter.com/TomiTurtiainen">@TomiTurtiainen</a
             ><br />
-            <a href="https://github.com/tomi">https://github.com/tomi</a>
+            <a href="https://github.com/tomi">https://github.com/tomi</a><br />
+            <a href="https://github.com/tomi/fromfrom"
+              >https://github.com/tomi/fromfrom</a
+            >
           </p>
           <div
-            style="background-color: #200a74; transform: skewX(-10deg); width: 100%; height: 400%; position: absolute; top: -100%; right: -60%; z-index: -1;"
+            style="background-color: #200a74; transform: skewX(-10deg); width: 100%; height: 400%; position: absolute; top: -100%; right: -70%; z-index: -1;"
           ></div>
           <!-- See this in <a href="https://tomi.github.io/presentation-future-of-js">https://tomi.github.io/presentation-future-of-js</a> -->
         </section>
@@ -528,9 +527,6 @@ const result = from([1, 2, 3, 4])
       var footer = document.querySelector(".footer");
 
       Reveal.addEventListener("slidechanged", function(event) {
-        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
-        // console.log(event.currentSlide.attributes);
-        // First, let's verify that the paragraph has some attributes
         var credit = "";
         if (event.currentSlide.hasAttributes()) {
           var attrs = event.currentSlide.attributes;
@@ -542,8 +538,6 @@ const result = from([1, 2, 3, 4])
         }
         footer.innerHTML = credit;
       });
-
-      //   console.log(Reveal.getCurrentSlide());
     </script>
   </body>
 </html>
