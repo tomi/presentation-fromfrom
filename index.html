@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>fromfrom</title>
+
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/night.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="footer" style="z-index: 2;">
+        Photo by Laura Vanzo on Visit Tampere
+      </div>
+      <div class="slides">
+        <!-- Intro -->
+        <section
+          data-transition="slide"
+          data-background-color="#000000"
+          data-background-opacity="0.4"
+          data-background="images/tampere-by-laura-vanzo.jpg"
+          data-credit="Photo by Laura Vanzo on Visit Tampere"
+        >
+          <h2 style="font-size: 2.6em">fromfrom</h2>
+          <br />
+          <h3>
+            LINQ inspired library to transform sequences of data
+          </h3>
+          <br />
+          <p>
+            <a href="https://twitter.com/TomiTurtiainen">@TomiTurtiainen</a> |
+            <a href="https://github.com/tomi">https://github.com/tomi</a>
+          </p>
+          <br />
+          <p>
+            <small>
+              TampereJS | 7/11/2019
+            </small>
+          </p>
+        </section>
+
+        <!-- Motivation -->
+        <section data-background-color="#000">
+          <div
+            style="background-color: #200a74; width: 300%; transform: skewY(-7deg);
+        height: 60%; position: absolute; bottom: -28%; left: -100%; z-index: -50;
+        "
+          ></div>
+          <h2>Motivation</h2>
+          <p>How do you transform data in JS?</p>
+          <br /><br /><br /><br /><br /><br />
+          <p class="fragment right">
+            Here are some options...
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- Plain JS -->
+        <section
+          data-background="images/js.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.3"
+          data-credit="Photo by Pankaj Patel on Unsplash"
+        >
+          <h2>Plain JavaScript</h2>
+
+          <p class="fragment">
+            <code>Array</code> has <code>filter</code>, <code>map</code>,
+            <code>reduce</code>, but...
+          </p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...no methods for more complicated transforms
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...<code>Object</code>, <code>Map</code> and <code>Set</code> don't
+            have them
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...methods are not lazy
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- Lodash -->
+        <section
+          data-background="images/js.jpg"
+          data-background-color="#000000"
+          data-background-opacity="0.4"
+          data-credit="Photo by Pankaj Patel on Unsplash"
+        >
+          <h2>lodash</h2>
+          <p class="fragment">
+            You can create a pipeline with <code>_.chain()</code>, but...
+          </p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...it feels clumsy and hard to understand
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...TypeScript support is not the best
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...no support for <code>Set</code>, <code>Map</code> or other
+            <code>Iterable</code>s
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...it imports almost the entire library
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- LINQ -->
+        <section data-background-color="#000000">
+          <div
+            style="background-color: #200a74; transform: skewX(7deg); width: 100%; height: 400%; position: absolute; top: -100%; left: -50%; z-index: -1;"
+          ></div>
+          <h2>LINQ</h2>
+
+          <div
+            style="width: 40%; display: inline-block; margin-right: 5%; vertical-align: top;"
+          >
+            <p class="fragment" style="font-size: 0.8em;">
+              .NET way of transforming data from one source to another
+            </p>
+          </div>
+
+          <br /><br /><br />
+
+          <div class="fragment">
+            <div
+              style="width: 45%; margin-right:5%; display: inline-block; vertical-align: top;"
+            >
+              <p
+                style="text-align: right; line-height: 1.2em; font-size: 0.8em; margin-top: 0;"
+              >
+                Sort Finnish players by their score and select each player's
+                name and score
+              </p>
+            </div>
+
+            <div class="code" style="width: 44%; display: inline-block;">
+              <p>Players</p>
+              <p>
+                &nbsp;&nbsp;.Where(c =&gt; c.Country ==
+                <span class="hljs-string">"FI"</span>)
+              </p>
+              <p>&nbsp;&nbsp;.OrderByDescending(c =&gt; c.Score)</p>
+              <p>
+                &nbsp;&nbsp;.Select(c =&gt;
+              </p>
+              <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword">new</span>
+                { c.Name, c.Score }
+              </p>
+              <p>&nbsp;&nbsp;)</p>
+              <p>&nbsp;&nbsp;.ToList();</p>
+            </div>
+          </div>
+
+          <aside class="notes"></aside>
+        </section>
+
+        <!-- LINQ libraries -->
+        <section
+          data-background="images/npm-linq.png"
+          data-background-color="#000000"
+          data-background-opacity="0.3"
+        >
+          <h2>LINQ libraries</h2>
+
+          <p class="fragment">NPM already has 340 LINQ libraries, but...</p>
+
+          <br />
+
+          <p class="fragment" style="text-align: right;">
+            ...they are exact copies of LINQ
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...method names are not JS friendly
+          </p>
+          <p class="fragment" style="text-align: right;">
+            ...they lack support for certain types
+          </p>
+
+          <aside class="notes">
+            - Array has filter, map, reduce, etc. but Set, Map and Object don't
+            - Can't easily transform from one type to another
+          </aside>
+        </section>
+
+        <!-- Design goals -->
+        <section
+          data-background="images/goals.jpg"
+          data-background-color="#000"
+          data-background-opacity="0.3"
+          data-credit="Photo by Isaac Smith on Unsplash"
+        >
+          <h2>fromfrom</h2>
+          <p class="fragment" style="font-size: 0.9em;">
+            Provide similar functionality to LINQ in JS friendly way
+          </p>
+          <ul>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Simple</b>: Have a explicit and simple API
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Familiar</b>: Use familiar function names from JS
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Small</b>: No external dependencies, 1.4 kB gzipped
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Type safe</b>: Written in TypeScript and has type definitions
+              included
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Comprehensive</b>: Support all native JS collections
+            </li>
+            <li class="fragment" style="font-size: 0.9em;">
+              <b>Fast</b>: Use lazy evaluation and deferred execution
+            </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#009f77"><h2>Demo</h2></section>
+
+        <section data-background-color="#fb8793">
+          <h2>How does it work?</h2>
+        </section>
+
+        <!-- Iteration protocol -->
+        <section data-background-color="#000">
+          <h2 style="text-align: center;">Iteration protocols</h2>
+          <div
+            style="background-color: #200a74; width: 100%;
+            height: 400%; position: absolute; top: -100%; left: -63%; z-index: -50;"
+          ></div>
+          <div
+            style="background-color: #200a74; width: 300%;
+            height: 50%; position: absolute; top: -32%; left: -10%; z-index: -50;
+            "
+          ></div>
+          <div class="split">
+            <div class="left">
+              <small>
+                <p>
+                  Enables iteration of JS types with <code>for...of</code> loops
+                </p>
+                <p>
+                  Implemented by <code>String</code>, <code>Array</code>,
+                  <code>Map</code> and
+                  <code>Set</code>
+                </p>
+                <p>Specified in <font color="#ff465a">ES2015</font></p>
+                <div class="fragment">
+                  <p><code>IEnumerable&lt;T></code> in .NET</p>
+                  <p><code>iterable</code> in Python</p>
+                  <p><code>std::iter::Iterator</code> trait in Rust</p>
+                </div>
+              </small>
+            </div>
+            <div class="mid"></div>
+            <div class="right">
+              <pre
+                class="fragment"
+                style="width: 100%;"
+              ><code data-trim data-noescape class="ts"
+              style="max-height: 900px;">// Simplified TypeScript definition
+interface Iterable&lt;T> {
+  [Symbol.iterator](): Iterator&lt;T>;
+}
+
+interface Iterator&lt;T> {
+  next(value?: any): IteratorResult&lt;T>;
+
+  return?(value?: any): IteratorResult&lt;T>;
+
+  throw?(e?: any): IteratorResult&lt;T>;
+}
+
+interface IteratorResult&lt;T> {
+  done: boolean;
+  value: T;
+}
+                    </code>
+                </pre>
+            </div>
+          </div>
+          <br /><br />
+        </section>
+
+        <!-- Iteration example -->
+        <section data-background-color="#000">
+          <h2 style="text-align: center;">Iteration example</h2>
+          <div
+            style="background-color: #200a74; width: 300%;
+            height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
+            "
+          ></div>
+          <pre
+            style="box-shadow: none;"
+          ><code data-trim data-noescape class="ts" style="background: transparent; max-height: 900px;">// Could be as well a Set or a Map
+const array = [1, 2, 3];
+
+const iterator = array[Symbol.iterator]();
+iterator.next(); // { value: 1, done: false }
+iterator.next(); // { value: 2, done: false }
+iterator.next(); // { value: 3, done: false }
+iterator.next(); // { value: undefined, done: true }</code></pre>
+
+          <pre
+            class="fragment"
+            style="box-shadow: none;"
+          ><code data-trim data-noescape class="ts" style="background: transparent; max-height: 900px;">// But generally you would just write...
+for (const item of array) {
+    // ...which does the same thing
+}</code></pre>
+          <br /><br /><br />
+        </section>
+
+        <!-- Generation functions -->
+        <section data-background-color="#000">
+          <h2 style="text-align: center;">Generator functions</h2>
+          <div
+            style="background-color: #009f77; width: 100%;
+            height: 400%; position: absolute; top: -100%; left: -63%; z-index: -50;"
+          ></div>
+          <div
+            style="background-color: #009f77; width: 300%;
+            height: 50%; position: absolute; top: -32%; left: -10%; z-index: -50;
+            "
+          ></div>
+          <div class="split">
+            <div class="left">
+              <small>
+                <p>
+                  Functions which can be exited and later re-entered
+                </p>
+                <p>Can <code>yield</code> values</p>
+                <p>Is both <code>Iterable</code> and <code>Iterator</code></p>
+                <p>Specified in <font color="#f08">ES2015</font></p>
+              </small>
+            </div>
+            <div class="mid"></div>
+            <div class="right">
+              <pre
+                class="fragment"
+                style="width: 100%;"
+              ><code data-trim data-noescape class="ts">// Simplified TypeScript definition
+type GeneratorFunction =
+  (...args: any[]) => Generator;
+
+interface Generator&lt;T> extends Iterator&lt;T> {
+    [Symbol.iterator](): Generator&lt;T>;
+
+    next(value?: any): IteratorResult&lt;T>;
+
+    return?(value?: any): IteratorResult&lt;T>;
+
+    throw?(e?: any): IteratorResult&lt;T>;
+}
+              </code></pre>
+            </div>
+          </div>
+          <br /><br /><br />
+        </section>
+
+        <!-- Generator example -->
+        <section data-background-color="#000">
+          <h2 style="text-align: center;">Generator example</h2>
+          <div
+            style="background-color: #009f77; width: 300%;
+            height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
+            "
+          ></div>
+          <pre style="width: 100%; box-shadow: none;"><code
+          data-trim data-noescape class="ts"
+          style="background: transparent;">function* objectEntries(obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key];
+
+      yield [key, value];
+    }
+  }
+}
+</code></pre>
+
+          <pre class="fragment" style="width: 100%; box-shadow: none;"><code
+          data-trim data-noescape class="ts"
+          style="background: transparent;">const obj = { a: 1, b: 2 };
+
+for (const pair of objectEntries(obj)) {
+    // first pair is ["a", 1]
+    // second pair is ["b", 2]
+}</code></pre>
+          <br /><br /><br />
+        </section>
+
+        <!-- Lazy evaluation example -->
+        <section data-background-color="#000">
+          <h2 style="text-align: center;">Lazy evaluation</h2>
+          <div
+            style="background-color: #200a74; width: 300%;
+            height: 50%; position: absolute; top: -32%; left: -100%; z-index: -50;
+            "
+          ></div>
+          <pre style="width: 100%; box-shadow: none;"><code
+          data-trim data-noescape class="ts"
+          style="background: transparent;">import { from } from "fromfrom";
+
+const result = from([1, 2, 3, 4])
+  .map(x => {
+    console.log(x);
+    return x;
+  })
+  .map(x => x * 2)
+  .take(1)
+  .toArray(); // Needed to force the evaluation
+
+// Only 1 is printed to the console
+</code></pre>
+          <br /><br /><br /><br /><br />
+        </section>
+
+        <!-- Documentation -->
+        <section
+          data-background-iframe="https://tomi.github.io/fromfrom/"
+          data-background-interactive
+        ></section>
+
+        <!-- Further development -->
+        <section data-background-color="#200a74">
+          <h2>Further development</h2>
+
+          <p>Add some missing methods</p>
+          <p>Support for async iterables</p>
+          <p>Functional version</p>
+        </section>
+
+        <!-- Thanks -->
+        <section>
+          <br /><br />
+          <h2>Thank you!</h2>
+
+          <h2>Questions?</h2>
+
+          <br />
+          <p>
+            <a href="https://twitter.com/TomiTurtiainen">@TomiTurtiainen</a
+            ><br />
+            <a href="https://github.com/tomi">https://github.com/tomi</a><br />
+            <a href="https://github.com/tomi/fromfrom"
+              >https://github.com/tomi/fromfrom</a
+            >
+          </p>
+          <div
+            style="background-color: #200a74; transform: skewX(-10deg); width: 100%; height: 400%; position: absolute; top: -100%; right: -70%; z-index: -1;"
+          ></div>
+          <!-- See this in <a href="https://tomi.github.io/presentation-future-of-js">https://tomi.github.io/presentation-future-of-js</a> -->
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        controls: true,
+        history: true,
+        backgroundTransition: "slide",
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+
+      var footer = document.querySelector(".footer");
+
+      Reveal.addEventListener("slidechanged", function(event) {
+        var credit = "";
+        if (event.currentSlide.hasAttributes()) {
+          var attrs = event.currentSlide.attributes;
+          for (var i = attrs.length - 1; i >= 0; i--) {
+            if (attrs[i].name === "data-credit") {
+              credit = attrs[i].value;
+            }
+          }
+        }
+        footer.innerHTML = credit;
+      });
+    </script>
+  </body>
+</html>
